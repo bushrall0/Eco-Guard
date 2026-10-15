@@ -10,7 +10,7 @@ def call_llm(prompt: str) -> str:
     client = anthropic.Anthropic(api_key=api_key)
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-20250514"),
             max_tokens=1024,
             system="You must respond with valid JSON only. No text before or after the JSON. No markdown. No code blocks. Pure JSON object.",
             messages=[{"role": "user", "content": prompt}]

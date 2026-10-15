@@ -2,7 +2,9 @@ import requests
 import os
 import concurrent.futures
 
-API_BASE_URL = os.getenv("API_BASE_URL", "https://eco-guard-production.up.railway.app")
+# إذا تم تحديد API_BASE_URL يتم الاتصال بخادم FastAPI المنفصل،
+# وإلا يتم تشغيل الوكلاء مباشرة داخل تطبيق Streamlit (وضع النشر الموحد)
+API_BASE_URL = os.getenv("API_BASE_URL", "").rstrip("/")
 
 def call_demographic_agent(record: dict) -> dict:
     try:
@@ -27,6 +29,10 @@ def call_manager_agent(record: dict) -> dict:
 
 def analyze_record_parallel(record: dict) -> dict:
     """يحلل السجل بتشغيل الوكيل الديموغرافي والمالي بالتوازي"""
+    if not API_BASE_URL:
+        from agents import analyze_record
+        return analyze_record(record)
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         demo_future = executor.submit(call_demographic_agent, record)
         fin_future = executor.submit(call_financial_agent, record)

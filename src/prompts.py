@@ -1,7 +1,9 @@
 import json
+import os
 
 def load_reference_data():
-    with open("reference_data.json", "r", encoding="utf-8") as f:
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reference_data.json")
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 def demographic_prompt(record: dict) -> str:
