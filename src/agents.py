@@ -6,6 +6,30 @@ from prompts import demographic_prompt, financial_prompt, manager_prompt, load_r
 
 _REFERENCE_DATA = load_reference_data()
 
+AGENT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "status": {"type": "string", "enum": ["منطقي", "تناقض مكتشف"]},
+        "score": {"type": "integer"},
+        "issues": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": "string"}
+    },
+    "required": ["status", "score", "issues", "notes"],
+    "additionalProperties": False
+}
+
+MANAGER_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "trust_score": {"type": "integer"},
+        "status": {"type": "string", "enum": ["موثوق", "يحتاج مراجعة", "مرفوض"]},
+        "issues": {"type": "array", "items": {"type": "string"}},
+        "recommendation": {"type": "string"}
+    },
+    "required": ["trust_score", "status", "issues", "recommendation"],
+    "additionalProperties": False
+}
+
 PERSONAL_FIELDS = ["name", "الاسم", "id", "رقم_الهوية", "phone", "الجوال", "email", "الايميل"]
 
 def anonymize_record(record: dict) -> dict:
@@ -149,7 +173,7 @@ def parse_json_response(response: str) -> dict:
 def run_demographic_agent(record: dict) -> dict:
     safe_record = anonymize_record(record)
     prompt = demographic_prompt(safe_record)
-    response = call_llm(prompt)
+    response = call_llm(prompt, AGENT_SCHEMA)
     result = parse_json_response(response)
     result['agent'] = 'الوكيل الديموغرافي'
     return result
@@ -157,7 +181,7 @@ def run_demographic_agent(record: dict) -> dict:
 def run_financial_agent(record: dict) -> dict:
     safe_record = anonymize_record(record)
     prompt = financial_prompt(safe_record, _REFERENCE_DATA)
-    response = call_llm(prompt)
+    response = call_llm(prompt, AGENT_SCHEMA)
     result = parse_json_response(response)
     result['agent'] = 'الوكيل المالي'
     return result
@@ -165,7 +189,7 @@ def run_financial_agent(record: dict) -> dict:
 def run_manager_agent(demo_result: dict, financial_result: dict, record: dict) -> dict:
     safe_record = anonymize_record(record)
     prompt = manager_prompt(demo_result, financial_result, safe_record)
-    response = call_llm(prompt)
+    response = call_llm(prompt, MANAGER_SCHEMA)
     result = parse_json_response(response)
     result['agent'] = 'الوكيل القيادي'
     return result
