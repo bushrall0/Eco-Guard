@@ -135,6 +135,7 @@ st.markdown(f"""
     .recommendation-box {{ background: #f0f7f5; border: 1px solid #c0ddd8; border-right: 3px solid #1A6B52; border-left: none !important; padding: 12px 16px 12px 12px; border-radius: 4px; color: #1a3a34; font-size: 12px; line-height: 1.7; margin-top: 12px; direction: rtl !important; text-align: right !important; }}
     .step-indicator {{ background: rgba(26,107,82,0.15); border: 1px solid rgba(26,107,82,0.4); border-right: 4px solid #1A6B52; border-left: none !important; color: rgba(255,255,255,0.85); padding: 12px 18px 12px 14px; border-radius: 4px; font-size: 13px; margin: 6px 0; backdrop-filter: blur(8px); direction: rtl !important; text-align: right !important; }}
     [data-testid="stTextInput"] input[type="password"] {{ -webkit-text-security: disc !important; }}
+    [data-testid="InputInstructions"] {{ display: none !important; }}
     ::-webkit-credentials-auto-fill-button {{ display: none !important; }}
     .stAlert {{ background: rgba(255,255,255,0.92) !important; border-right: 4px solid #1A6B52 !important; border-radius: 8px !important; box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important; }}
     .stAlert * {{ color: #1a1a1a !important; font-weight: 600 !important; }}
