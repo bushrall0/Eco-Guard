@@ -13,6 +13,8 @@
 ![Plotly](https://img.shields.io/badge/Plotly-3F4F75?logo=plotly&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 
+### [🚀 Try the live demo](https://eco-guard-va7gbqxonc2o53qwv27jrk.streamlit.app/)
+
 [Report (PDF)](docs/EcoGuard_Report.pdf) · [Presentation (PDF)](docs/EcoGuard_Presentation.pdf)
 
 </div>
